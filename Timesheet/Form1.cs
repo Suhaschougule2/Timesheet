@@ -21,6 +21,8 @@ namespace Timesheet
 
         private string filePath;
 
+        private bool isSaveClicked = false;            //for without saving close the form
+
         public Form1()
         {
             InitializeComponent();
@@ -59,6 +61,10 @@ namespace Timesheet
 
 
 
+                isSaveClicked = true;                           //checked if save button is click
+
+
+
                 //Append data into same Json file
                 string filepath = GetFilePath();
 
@@ -71,7 +77,16 @@ namespace Timesheet
                     info = JsonConvert.DeserializeObject<List<Info>>(existingData) ?? new List<Info>();
                 }
 
-                
+
+/*
+                //Save data at one Time in a Day
+                if (info.Any(entry => entry.Date == dateTimePicker1.Text))
+                {
+                    MessageBox.Show("Data for the current day already exists!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return; // Exit without saving
+                }
+*/
+
 
                 //Add new data
                 info.Add(new Info()
@@ -82,7 +97,7 @@ namespace Timesheet
                    Date = dateTimePicker1.Text,
                    Team = comboBox1.Text,
                    Work_Details = textBox1.Text,
-
+                    
                 });
 
                 
@@ -142,43 +157,7 @@ namespace Timesheet
 
 
 
-        //TextBox AutoSize 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            AutoSizeTextBox(textBox1);
-            textBox1.Multiline = true;
-        }
-
-
-        private void AutoSizeTextBox(TextBox textBox)
-        {
-            int border = 2; // Adjust this value based on your TextBox border
-            int padding = textBox.Height - textBox.ClientRectangle.Height;
-
-
-            TextFormatFlags flags = TextFormatFlags.WordBreak | TextFormatFlags.TextBoxControl;
-            int newHeight = TextRenderer.MeasureText(textBox.Text, textBox.Font, new Size(textBox.Width, int.MaxValue), flags).Height + padding + border;
-
-
-            if (newHeight > textBox.Height)
-            {
-                textBox.Height = newHeight;
-            }
-
-            else if (textBox.Lines.Length <= 1)
-            {
-                // Reset the height to the default if the text is empty or a single line
-                textBox.Height = textBox.Font.Height + padding + border;
-            }
-        }
-
-
-
-
-
-
-
-        //Form validation
+        //Form Validation
 
         private void dateTimePicker1_Validating(object sender, CancelEventArgs e)
         {
@@ -230,21 +209,23 @@ namespace Timesheet
 
         }
 
-        
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+
+
+
+        //Form Closing button event
+        private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            if (comboBox1.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox1.Text))
+            if(comboBox1.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Please Fill the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Cancel = true;
             }
-            else 
+            else if (!isSaveClicked)
             {
-                MessageBox.Show("Please Save the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please Save the Timesheet before closing the form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Cancel = true;
             }
         }
-
 
 
 
@@ -257,5 +238,8 @@ namespace Timesheet
             else
                 e.Handled = false;
         }
+
+
+
     }
 }
