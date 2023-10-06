@@ -76,9 +76,9 @@ namespace Timesheet
                 //Add new data
                 info.Add(new Info()
                 {
-
-                   IP_Address = GetIPAddress(),
+                        
                    Name = Environment.UserName,
+                   IP_Address = GetIPAddress(),
                    Date = dateTimePicker1.Text,
                    Team = comboBox1.Text,
                    Work_Details = textBox1.Text,
@@ -236,6 +236,11 @@ namespace Timesheet
             if (comboBox1.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Please Fill the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                e.Cancel = true;
+            }
+            else 
+            {
+                MessageBox.Show("Please Save the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Cancel = true;
             }
         }
