@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,11 @@ namespace Timesheet
             //Open Form on Windows Start
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             reg.SetValue("Timesheet", Application.ExecutablePath);
+
+
+            //Display the form over other application
+            this.TopMost = true;
+            
 
         }
 
@@ -227,7 +233,7 @@ namespace Timesheet
         
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text) || comboBox1.SelectedIndex == -1)
+            if (comboBox1.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Please Fill the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Cancel = true;
