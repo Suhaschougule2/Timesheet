@@ -11,11 +11,15 @@ namespace Timesheet
 
         public string Name { get; set; }
 
-        public string Date {  get; set; }
+        public string IP_Address { get; set; }
+
+        public string Date { get; set; }
 
         public string Team { get; set; }
 
         public string Work_Details { get; set; }
+
+        
 
 
 
