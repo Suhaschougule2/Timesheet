@@ -16,14 +16,18 @@ using System.Windows.Forms;
 
 namespace Timesheet
 {
-    public partial class Form1 : Form
+    public partial class Timesheet_Form : Form
     {
+
+        private List<Info> info = new List<Info>();
 
         private string filePath;
 
         private bool isSaveClicked = false;            //for without saving close the form
 
-        public Form1()
+       
+
+        public Timesheet_Form()
         {
             InitializeComponent();
             filePath = "C:\\Users\\SuhasC\\source\\repos\\Timesheet\\Timesheet\\bin\\Debug\\TimesheetData.json";    //full path
@@ -40,11 +44,10 @@ namespace Timesheet
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void TSForm_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = DateTime.Now.AddDays(-1);
+            datePicker.Value = DateTime.Now.AddDays(-1);
         }
-
 
 
         private void save_button_Click(object sender, EventArgs e)
@@ -78,14 +81,14 @@ namespace Timesheet
                 }
 
 
-/*
+
                 //Save data at one Time in a Day
-                if (info.Any(entry => entry.Date == dateTimePicker1.Text))
+                if (info.Any(entry => entry.Date == datePicker.Text))
                 {
                     MessageBox.Show("Data for the current day already exists!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return; // Exit without saving
                 }
-*/
+
 
 
                 //Add new data
@@ -94,9 +97,9 @@ namespace Timesheet
                         
                    Name = Environment.UserName,
                    IP_Address = GetIPAddress(),
-                   Date = dateTimePicker1.Text,
-                   Team = comboBox1.Text,
-                   Work_Details = textBox1.Text,
+                   Date = datePicker.Text,
+                   Team = comboBox.Text,
+                   Work_Details = textBox.Text,
                     
                 });
 
@@ -111,7 +114,7 @@ namespace Timesheet
 
 
                 
-                Application.Exit();
+               
             }
 
 
@@ -158,64 +161,59 @@ namespace Timesheet
 
 
         //Form Validation
-
-        private void dateTimePicker1_Validating(object sender, CancelEventArgs e)
+        private void datePicker_Validating(object sender, CancelEventArgs e)
         {
-
-            if (dateTimePicker1.Value > DateTime.Now)
+            if (datePicker.Value > DateTime.Now)
             {
                 e.Cancel = true;
-                dateTimePicker1.Focus();
-                errorProvider.SetError(dateTimePicker1, "Please Select a Valid Date!");
+                datePicker.Focus();
+                errorProvider.SetError(datePicker, "Please Select a Valid Date!");
             }
             else
             {
                 e.Cancel = false;
-                errorProvider.SetError(dateTimePicker1, null);
+                errorProvider.SetError(datePicker, null);
             }
         }
 
-
-        private void comboBox1_Validating(object sender, CancelEventArgs e)
+        private void comboBox_Validating(object sender, CancelEventArgs e)
         {
-            if (comboBox1.SelectedIndex == -1)
+            if (comboBox.SelectedIndex == -1)
             {
                 e.Cancel = true;
-                comboBox1.Focus();
-                errorProvider.SetError(comboBox1, "Please Select Team From Dropdown!");
+                comboBox.Focus();
+                errorProvider.SetError(comboBox, "Please Select Team From Dropdown!");
             }
             else
             {
                 e.Cancel = false;
-                errorProvider.SetError(comboBox1, null);
+                errorProvider.SetError(comboBox, null);
             }
         }
 
-
-        private void textBox1_Validating(object sender, CancelEventArgs e)
+        private void textBox_Validating(object sender, CancelEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if (string.IsNullOrWhiteSpace(textBox.Text))
             {
                 //MessageBox.Show("Please Enter Some Text!", " Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Cancel = true;
-                textBox1.Focus();
-                errorProvider.SetError(textBox1, "Please Enter Some Text!");
+                textBox.Focus();
+                errorProvider.SetError(textBox, "Please Enter Some Details of your Work!");
             }
             else
             {
                 e.Cancel = false;
-                errorProvider.SetError(textBox1, null);
+                errorProvider.SetError(textBox, null);
             }
-
         }
 
 
 
 
         //Form Closing button event
-        private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
+        private void TSForm_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            if(comboBox1.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox1.Text))
+            if (comboBox.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox.Text))
             {
                 MessageBox.Show("Please Fill the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Cancel = true;
@@ -229,10 +227,10 @@ namespace Timesheet
 
 
 
-
         //Space in Textbox
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+
             if ((sender as TextBox).SelectionStart == 0)
                 e.Handled = (e.KeyChar == (char)Keys.Space);
             else
@@ -241,5 +239,102 @@ namespace Timesheet
 
 
 
+        //Update Data in TextBox
+        private void update_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateChildren(ValidationConstraints.Enabled))
+                {
+                    return;
+                }
+
+
+
+                if (File.Exists(filePath))
+                {
+                    string existingData = File.ReadAllText(filePath);
+                    info = JsonConvert.DeserializeObject<List<Info>>(existingData) ?? new List<Info>();
+                }
+
+
+                // Find the entry to update based on the selected date
+                Info entryToUpdate = info.Find(entry => entry.Date == datePicker.Text);
+
+
+                if (entryToUpdate != null)
+                {
+                    // Update the relevant information
+                    entryToUpdate.Team = comboBox.Text;
+                    entryToUpdate.Work_Details = textBox.Text;
+
+
+
+                    string json = JsonConvert.SerializeObject(info, Formatting.Indented);
+                    File.WriteAllText(filePath, json);
+
+                    MessageBox.Show("Timesheet Updated Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                else
+                {
+                    MessageBox.Show("No Entry found for the selected date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+            }
+
+            catch
+            {
+                MessageBox.Show("An error occured!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        
+         
+        //Delete button to Delete the Record from Json File
+        private void delete_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    string existingData = File.ReadAllText(filePath);
+                    info = JsonConvert.DeserializeObject<List<Info>>(existingData) ?? new List<Info>();
+                }
+
+                //to delete based on the selected date
+                Info entryToDelete = info.Find(entry => entry.Date == datePicker.Text);
+
+                if (entryToDelete != null)
+                {
+                    // Remove the entry
+                    info.Remove(entryToDelete);
+
+                    string json = JsonConvert.SerializeObject(info, Formatting.Indented);
+                    File.WriteAllText(filePath, json);
+
+                    MessageBox.Show("Timesheet Record deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No entry found for the selected date!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while deleting data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+       
+        private void showTreeView_button_Click_1(object sender, EventArgs e)
+        {
+            // Open the RecordsForm
+            using (Records tsrecords = new Records())
+            {
+                tsrecords.ShowDialog();
+            }
+        }
     }
 }
