@@ -44,6 +44,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(499, 450);
             this.Controls.Add(this.treeView);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Records";
             this.Text = "Records";
             this.Load += new System.EventHandler(this.Records_Load);

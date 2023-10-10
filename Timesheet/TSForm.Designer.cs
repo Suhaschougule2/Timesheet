@@ -40,7 +40,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.showTreeView_button = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -84,7 +83,7 @@
             this.textBox.MaxLength = 10000;
             this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(467, 151);
+            this.textBox.Size = new System.Drawing.Size(467, 168);
             this.textBox.TabIndex = 4;
             this.textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             this.textBox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
@@ -92,9 +91,9 @@
             // save_button
             // 
             this.save_button.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.save_button.Location = new System.Drawing.Point(520, 369);
+            this.save_button.Location = new System.Drawing.Point(520, 388);
             this.save_button.Name = "save_button";
-            this.save_button.Size = new System.Drawing.Size(112, 40);
+            this.save_button.Size = new System.Drawing.Size(110, 30);
             this.save_button.TabIndex = 5;
             this.save_button.Text = "Save";
             this.save_button.UseVisualStyleBackColor = true;
@@ -102,7 +101,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.showTreeView_button);
             this.groupBox1.Controls.Add(this.delete_button);
             this.groupBox1.Controls.Add(this.update_button);
             this.groupBox1.Controls.Add(this.label3);
@@ -123,9 +121,9 @@
             // delete_button
             // 
             this.delete_button.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.delete_button.Location = new System.Drawing.Point(165, 369);
+            this.delete_button.Location = new System.Drawing.Point(194, 388);
             this.delete_button.Name = "delete_button";
-            this.delete_button.Size = new System.Drawing.Size(112, 40);
+            this.delete_button.Size = new System.Drawing.Size(110, 30);
             this.delete_button.TabIndex = 8;
             this.delete_button.Text = "Delete";
             this.delete_button.UseVisualStyleBackColor = true;
@@ -134,9 +132,9 @@
             // update_button
             // 
             this.update_button.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.update_button.Location = new System.Drawing.Point(349, 369);
+            this.update_button.Location = new System.Drawing.Point(357, 388);
             this.update_button.Name = "update_button";
-            this.update_button.Size = new System.Drawing.Size(112, 40);
+            this.update_button.Size = new System.Drawing.Size(110, 30);
             this.update_button.TabIndex = 7;
             this.update_button.Text = "Update";
             this.update_button.UseVisualStyleBackColor = true;
@@ -178,17 +176,6 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // showTreeView_button
-            // 
-            this.showTreeView_button.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.showTreeView_button.Location = new System.Drawing.Point(33, 369);
-            this.showTreeView_button.Name = "showTreeView_button";
-            this.showTreeView_button.Size = new System.Drawing.Size(112, 40);
-            this.showTreeView_button.TabIndex = 9;
-            this.showTreeView_button.Text = "TV";
-            this.showTreeView_button.UseVisualStyleBackColor = true;
-            this.showTreeView_button.Click += new System.EventHandler(this.showTreeView_button_Click_1);
-            // 
             // Timesheet_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -225,7 +212,6 @@
         private System.Windows.Forms.ComboBox comboBox;
         private System.Windows.Forms.Button delete_button;
         private System.Windows.Forms.Button update_button;
-        private System.Windows.Forms.Button showTreeView_button;
     }
 }
 

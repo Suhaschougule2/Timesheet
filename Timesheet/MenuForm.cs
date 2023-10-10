@@ -4,32 +4,30 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Timesheet
 {
-    public partial class Timesheet_Form : Form
+    public partial class MenuForm : Form
     {
+        //Timesheet Panel
+
 
         private List<Info> info = new List<Info>();
 
         private string filePath;
 
-        private bool isSaveClicked = false;            //for without saving close the form
-
-       
-
-        public Timesheet_Form()
+        public MenuForm()
         {
             InitializeComponent();
+          
             filePath = "C:\\Users\\SuhasC\\source\\repos\\Timesheet\\Timesheet\\bin\\Debug\\TimesheetData.json";    //full path
 
 
@@ -40,32 +38,46 @@ namespace Timesheet
 
             //Display the form over other application
             this.TopMost = true;
-            
-
         }
 
-        private void TSForm_Load(object sender, EventArgs e)
+        private void MenuForm_Load(object sender, EventArgs e)
         {
             datePicker.Value = DateTime.Now.AddDays(-1);
         }
 
 
+
+        private void tsOpenButton_Click(object sender, EventArgs e)
+        {
+            rsPanel.SendToBack();
+        }
+
+        private void recordsOpenButton_Click(object sender, EventArgs e)
+        {
+            rsPanel.BringToFront();
+        }
+
+
+
+        private void tsPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+
+
         private void save_button_Click(object sender, EventArgs e)
         {
-            
+
             try
             {
 
-             
-               if (!ValidateChildren(ValidationConstraints.Enabled))
-               {
+
+                if (!ValidateChildren(ValidationConstraints.Enabled))
+                {
                     return;
-               }
-
-
-
-                isSaveClicked = true;                           //checked if save button is click
-
+                }
 
 
                 //Append data into same Json file
@@ -76,7 +88,7 @@ namespace Timesheet
                 if (File.Exists(filePath))
                 {
                     string existingData = File.ReadAllText(filePath);
-                  //info = JsonConvert.DeserializeObject<List<Info>>(existingData);
+                    //info = JsonConvert.DeserializeObject<List<Info>>(existingData);
                     info = JsonConvert.DeserializeObject<List<Info>>(existingData) ?? new List<Info>();
                 }
 
@@ -94,39 +106,29 @@ namespace Timesheet
                 //Add new data
                 info.Add(new Info()
                 {
-                        
-                   Name = Environment.UserName,
-                   IP_Address = GetIPAddress(),
-                   Date = datePicker.Text,
-                   Team = comboBox.Text,
-                   Work_Details = textBox.Text,
-                    
+
+                    Name = Environment.UserName,
+                    IP_Address = GetIPAddress(),
+                    Date = datePicker.Text,
+                    Team = comboBox.Text,
+                    Work_Details = textBox.Text,
+
                 });
 
-                
-
-                
 
                 //Append data into Json file
                 string json = JsonConvert.SerializeObject(info, Formatting.Indented);
                 File.WriteAllText(filePath, json);
                 MessageBox.Show("Timesheet Save Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-                
-               
             }
-
 
             catch
             {
                 MessageBox.Show("An error occured!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-
         }
-
-        
 
 
         //Save Data into Json File on Windows Start (Combine the Path)
@@ -141,12 +143,11 @@ namespace Timesheet
 
 
 
-
         //IP Address
         private string GetIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach(var ip in host.AddressList)
+            foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
@@ -158,11 +159,20 @@ namespace Timesheet
 
 
 
+        //Space block
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((sender as TextBox).SelectionStart == 0)
+                e.Handled = (e.KeyChar == (char)Keys.Space);
+            else
+                e.Handled = false;
+        }
 
 
-        //Form Validation
+        //Validations
         private void datePicker_Validating(object sender, CancelEventArgs e)
         {
+
             if (datePicker.Value > DateTime.Now)
             {
                 e.Cancel = true;
@@ -174,10 +184,12 @@ namespace Timesheet
                 e.Cancel = false;
                 errorProvider.SetError(datePicker, null);
             }
+
         }
 
         private void comboBox_Validating(object sender, CancelEventArgs e)
         {
+
             if (comboBox.SelectedIndex == -1)
             {
                 e.Cancel = true;
@@ -189,6 +201,7 @@ namespace Timesheet
                 e.Cancel = false;
                 errorProvider.SetError(comboBox, null);
             }
+
         }
 
         private void textBox_Validating(object sender, CancelEventArgs e)
@@ -209,37 +222,7 @@ namespace Timesheet
 
 
 
-
-        //Form Closing button event
-        private void TSForm_FormClosing_1(object sender, FormClosingEventArgs e)
-        {
-            if (comboBox.SelectedIndex == -1 || string.IsNullOrWhiteSpace(textBox.Text))
-            {
-                MessageBox.Show("Please Fill the Form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                e.Cancel = true;
-            }
-            else if (!isSaveClicked)
-            {
-                MessageBox.Show("Please Save the Timesheet before closing the form!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                e.Cancel = true;
-            }
-        }
-
-
-
-        //Space in Textbox
-        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-            if ((sender as TextBox).SelectionStart == 0)
-                e.Handled = (e.KeyChar == (char)Keys.Space);
-            else
-                e.Handled = false;
-        }
-
-
-
-        //Update Data in TextBox
+        //Update
         private void update_button_Click(object sender, EventArgs e)
         {
             try
@@ -288,11 +271,12 @@ namespace Timesheet
                 MessageBox.Show("An error occured!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        
-         
-        //Delete button to Delete the Record from Json File
+
+
+        //Delete
         private void delete_button_Click(object sender, EventArgs e)
         {
+
             try
             {
                 if (File.Exists(filePath))
@@ -312,7 +296,7 @@ namespace Timesheet
                     string json = JsonConvert.SerializeObject(info, Formatting.Indented);
                     File.WriteAllText(filePath, json);
 
-                    MessageBox.Show("Timesheet Record deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Record deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -325,5 +309,79 @@ namespace Timesheet
                 MessageBox.Show($"An error occurred while deleting data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
+
+ //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        //Records Panel
+
+        private void rsPanel_Paint(object sender, PaintEventArgs e)
+        {
+            LoadJsonData();
+        }
+
+        private void LoadJsonData()
+        {
+            try
+            {
+                string filePath = "C:\\Users\\SuhasC\\source\\repos\\Timesheet\\Timesheet\\bin\\Debug\\TimesheetData.json";
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    // Read JSON data from the file
+                    string jsonData = System.IO.File.ReadAllText(filePath);
+
+                    // Deserialize JSON into a list of Info objects
+                    List<Info> infoList = JsonConvert.DeserializeObject<List<Info>>(jsonData);
+
+                    // Populate TreeView
+                    PopulateTreeView(infoList);
+                }
+                else
+                {
+                    MessageBox.Show("JSON file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+        private void PopulateTreeView(List<Info> infoList)
+        {
+            treeView.Nodes.Clear();
+
+            //by month
+            var entriesByMonth = infoList.GroupBy(info => DateTime.Parse(info.Date).ToString("MMMM yyyy"));
+
+            foreach (var monthGroup in entriesByMonth)
+            {
+                TreeNode monthNode = new TreeNode(monthGroup.Key);
+
+                foreach (Info info in monthGroup)
+                {
+                    TreeNode dayNode = new TreeNode($"{info.Date}");
+
+                    dayNode.Nodes.Add($"Name: {info.Name}");
+                    dayNode.Nodes.Add($"IP Address: {info.IP_Address}");
+                    dayNode.Nodes.Add($"Team: {info.Team}");
+                    dayNode.Nodes.Add($"Work Details: {info.Work_Details}");
+
+                    monthNode.Nodes.Add(dayNode);
+                }
+
+                treeView.Nodes.Add(monthNode);
+            }
+        }
+
+        
     }
 }

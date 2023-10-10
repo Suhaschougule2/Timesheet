@@ -16,7 +16,7 @@ namespace Timesheet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Timesheet_Form());
+            Application.Run(new LoginForm());
         }
     }
 }
