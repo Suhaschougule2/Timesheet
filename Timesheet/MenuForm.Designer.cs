@@ -226,6 +226,7 @@
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(479, 473);
             this.treeView.TabIndex = 1;
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
             // errorProvider
             // 
@@ -236,14 +237,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 570);
-            this.Controls.Add(this.tsPanel);
             this.Controls.Add(this.recordsOpenButton);
             this.Controls.Add(this.tsOpenButton);
+            this.Controls.Add(this.tsPanel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MenuForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MenuForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MenuForm_FormClosing);
             this.Load += new System.EventHandler(this.MenuForm_Load);
             this.tsPanel.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

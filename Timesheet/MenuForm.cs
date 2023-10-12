@@ -27,19 +27,22 @@ namespace Timesheet
         public MenuForm()
         {
             InitializeComponent();
-          
-            filePath = "C:\\Users\\SuhasC\\source\\repos\\Timesheet\\Timesheet\\bin\\Debug\\TimesheetData.json";    //full path
 
+            filePath = GetFilePath();
 
             //Open Form on Windows Start
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             reg.SetValue("Timesheet", Application.ExecutablePath);
 
 
+
             //Display the form over other application
             this.TopMost = true;
+
+            treeView.AfterSelect += treeView_AfterSelect;
         }
 
+        
         private void MenuForm_Load(object sender, EventArgs e)
         {
             datePicker.Value = DateTime.Now.AddDays(-1);
@@ -64,6 +67,18 @@ namespace Timesheet
 
         }
 
+
+        //Dynamic filePath
+        private string GetFilePath()
+        {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string appName = "Timesheet"; 
+            string fileName = "TimesheetData.json";
+            string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            return Path.Combine(appDataPath, appName, fileName, fullPath);
+        }
+
+       
 
 
 
@@ -118,7 +133,7 @@ namespace Timesheet
 
                 //Append data into Json file
                 string json = JsonConvert.SerializeObject(info, Formatting.Indented);
-                File.WriteAllText(filePath, json);
+                File.WriteAllText(filepath, json);
                 MessageBox.Show("Timesheet Save Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
@@ -129,17 +144,6 @@ namespace Timesheet
             }
 
         }
-
-
-        //Save Data into Json File on Windows Start (Combine the Path)
-        private string GetFilePath()
-        {
-
-            string docpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            return Path.Combine(docpath, "TimesheetData.json");
-
-        }
-
 
 
 
@@ -256,7 +260,7 @@ namespace Timesheet
                     string json = JsonConvert.SerializeObject(info, Formatting.Indented);
                     File.WriteAllText(filePath, json);
 
-                    MessageBox.Show("Timesheet Updated Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Record Updated Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 else
@@ -311,9 +315,14 @@ namespace Timesheet
         }
 
 
+        
 
 
- //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
         //Records Panel
@@ -327,15 +336,13 @@ namespace Timesheet
         {
             try
             {
-                string filePath = "C:\\Users\\SuhasC\\source\\repos\\Timesheet\\Timesheet\\bin\\Debug\\TimesheetData.json";
+                filePath = GetFilePath();
 
                 if (System.IO.File.Exists(filePath))
                 {
-                    // Read JSON data from the file
-                    string jsonData = System.IO.File.ReadAllText(filePath);
+                    string existingData = System.IO.File.ReadAllText(filePath);
 
-                    // Deserialize JSON into a list of Info objects
-                    List<Info> infoList = JsonConvert.DeserializeObject<List<Info>>(jsonData);
+                    List<Info> infoList = JsonConvert.DeserializeObject<List<Info>>(existingData) ?? new List<Info>();
 
                     // Populate TreeView
                     PopulateTreeView(infoList);
@@ -382,6 +389,40 @@ namespace Timesheet
             }
         }
 
-        
+
+
+        private void MenuForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                if (treeView.SelectedNode != null && e.Node.Parent != null)
+                {
+
+                    tsPanel.BringToFront();
+         
+                    rsPanel.SendToBack();
+
+                    string selectedDate = e.Node.Text;
+                    string selectedTeam = e.Node.Nodes[2].Text.Replace("Team: ", "");
+                    string selectedWorkDetails = e.Node.Nodes[3].Text.Replace("Work Details: ", "");
+
+                    datePicker.Text = selectedDate;
+                    comboBox.Text = selectedTeam;
+                    textBox.Text = selectedWorkDetails;
+                }
+            }
+            catch
+            {
+
+            }
+            
+        }
+
+
     }
 }
