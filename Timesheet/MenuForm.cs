@@ -36,7 +36,7 @@ namespace Timesheet
 
 
 
-
+            //Display Data after selecting Node from Records treeview
             treeView.AfterSelect += treeView_AfterSelect;
         }
 
@@ -77,6 +77,7 @@ namespace Timesheet
         }
 
        
+
 
 
 

@@ -84,7 +84,7 @@
             // login_button
             // 
             this.login_button.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.login_button.Location = new System.Drawing.Point(177, 203);
+            this.login_button.Location = new System.Drawing.Point(287, 203);
             this.login_button.Name = "login_button";
             this.login_button.Size = new System.Drawing.Size(103, 31);
             this.login_button.TabIndex = 4;
@@ -100,7 +100,7 @@
             // 
             this.showcheckBox.AutoSize = true;
             this.showcheckBox.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.showcheckBox.Location = new System.Drawing.Point(268, 167);
+            this.showcheckBox.Location = new System.Drawing.Point(126, 169);
             this.showcheckBox.Name = "showcheckBox";
             this.showcheckBox.Size = new System.Drawing.Size(122, 20);
             this.showcheckBox.TabIndex = 5;
