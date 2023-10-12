@@ -79,7 +79,7 @@
             this.tsPanel.Controls.Add(this.rsPanel);
             this.tsPanel.Location = new System.Drawing.Point(27, 48);
             this.tsPanel.Name = "tsPanel";
-            this.tsPanel.Size = new System.Drawing.Size(721, 501);
+            this.tsPanel.Size = new System.Drawing.Size(694, 484);
             this.tsPanel.TabIndex = 2;
             this.tsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.tsPanel_Paint);
             // 
@@ -97,7 +97,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Arial", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(672, 473);
+            this.groupBox1.Size = new System.Drawing.Size(672, 455);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TimeSheet";
@@ -216,7 +216,7 @@
             this.rsPanel.Controls.Add(this.treeView);
             this.rsPanel.Location = new System.Drawing.Point(13, 13);
             this.rsPanel.Name = "rsPanel";
-            this.rsPanel.Size = new System.Drawing.Size(689, 473);
+            this.rsPanel.Size = new System.Drawing.Size(672, 455);
             this.rsPanel.TabIndex = 8;
             this.rsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.rsPanel_Paint);
             // 
@@ -224,7 +224,7 @@
             // 
             this.treeView.Location = new System.Drawing.Point(6, 0);
             this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(479, 473);
+            this.treeView.Size = new System.Drawing.Size(639, 443);
             this.treeView.TabIndex = 1;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
@@ -236,10 +236,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(769, 570);
+            this.ClientSize = new System.Drawing.Size(754, 546);
             this.Controls.Add(this.recordsOpenButton);
             this.Controls.Add(this.tsOpenButton);
             this.Controls.Add(this.tsPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MenuForm";

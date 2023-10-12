@@ -84,7 +84,7 @@
             // login_button
             // 
             this.login_button.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.login_button.Location = new System.Drawing.Point(196, 202);
+            this.login_button.Location = new System.Drawing.Point(177, 203);
             this.login_button.Name = "login_button";
             this.login_button.Size = new System.Drawing.Size(103, 31);
             this.login_button.TabIndex = 4;
@@ -112,7 +112,7 @@
             // 
             this.welcomelabel.AutoSize = true;
             this.welcomelabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.welcomelabel.Location = new System.Drawing.Point(192, 24);
+            this.welcomelabel.Location = new System.Drawing.Point(173, 26);
             this.welcomelabel.Name = "welcomelabel";
             this.welcomelabel.Size = new System.Drawing.Size(102, 24);
             this.welcomelabel.TabIndex = 6;
@@ -130,6 +130,7 @@
             this.Controls.Add(this.textBoxUsername);
             this.Controls.Add(this.passwordlabel);
             this.Controls.Add(this.usernamelabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
