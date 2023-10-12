@@ -67,17 +67,14 @@ namespace Timesheet
 
 
         //Dynamic filePath
-        private string GetFilePath()
-        {
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string appName = "Timesheet"; 
-            string fileName = "TimesheetData.json";
-            string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            return Path.Combine(appDataPath, appName, fileName, fullPath);
-        }
-
-       
-
+         private string GetFilePath()
+         {
+             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+             string appName = "Timesheet"; 
+             string fileName = "TimesheetData2222.json";
+             string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+             return Path.Combine(appDataPath, appName, fileName, fullPath);
+         }
 
 
 
