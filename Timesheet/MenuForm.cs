@@ -347,6 +347,14 @@ namespace Timesheet
                     // Populate TreeView
                     PopulateTreeView(infoList);
                 }
+
+                else if(!System.IO.File.Exists(filePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                    File.WriteAllText(filePath, "[]");
+                }
+
                 else
                 {
                     MessageBox.Show("JSON file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -396,11 +404,12 @@ namespace Timesheet
             Application.Exit();
         }
 
+        //treview
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             try
             {
-                if (treeView.SelectedNode != null && e.Node.Parent != null)
+                if (treeView.SelectedNode != null && e.Node.Parent != null && treeView.SelectedNode.Nodes.Count > 0)
                 {
 
                     tsPanel.BringToFront();
