@@ -36,8 +36,6 @@ namespace Timesheet
 
 
 
-            //Display the form over other application
-            this.TopMost = true;
 
             treeView.AfterSelect += treeView_AfterSelect;
         }
