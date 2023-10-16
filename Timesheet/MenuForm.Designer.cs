@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuForm));
             this.tsOpenButton = new System.Windows.Forms.Button();
             this.recordsOpenButton = new System.Windows.Forms.Button();
             this.tsPanel = new System.Windows.Forms.Panel();
@@ -191,6 +192,7 @@
             // 
             // datePicker
             // 
+            this.datePicker.CustomFormat = "";
             this.datePicker.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.datePicker.Location = new System.Drawing.Point(165, 55);
             this.datePicker.MaxDate = new System.DateTime(3001, 12, 31, 0, 0, 0, 0);
@@ -241,6 +243,7 @@
             this.Controls.Add(this.tsOpenButton);
             this.Controls.Add(this.tsPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MenuForm";

@@ -44,6 +44,13 @@ namespace Timesheet
         private void MenuForm_Load(object sender, EventArgs e)
         {
             datePicker.Value = DateTime.Now.AddDays(-1);
+       
+            if (datePicker.Value.DayOfWeek == DayOfWeek.Saturday || datePicker.Value.DayOfWeek == DayOfWeek.Sunday)
+            {
+                datePicker.Value = DateTime.Now.AddDays(-3);
+            }
+           
+
         }
 
 
@@ -172,8 +179,14 @@ namespace Timesheet
         //Validations
         private void datePicker_Validating(object sender, CancelEventArgs e)
         {
-
-            if (datePicker.Value > DateTime.Now)
+            // Check if the selected date is a Saturday or Sunday
+            if (datePicker.Value.DayOfWeek == DayOfWeek.Saturday || datePicker.Value.DayOfWeek == DayOfWeek.Sunday)
+            {
+                e.Cancel = true;
+                datePicker.Focus();
+                errorProvider.SetError(datePicker, "Please choose a weekday (Monday to Friday)");
+            }
+            else if (datePicker.Value > DateTime.Now)
             {
                 e.Cancel = true;
                 datePicker.Focus();
@@ -184,8 +197,8 @@ namespace Timesheet
                 e.Cancel = false;
                 errorProvider.SetError(datePicker, null);
             }
-
         }
+
 
         private void comboBox_Validating(object sender, CancelEventArgs e)
         {
@@ -427,6 +440,9 @@ namespace Timesheet
             }
             
         }
+
+
+
 
 
     }
