@@ -17,6 +17,7 @@ namespace Timesheet
         public LoginForm()
         {
             InitializeComponent();
+            this.AcceptButton = login_button;
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
